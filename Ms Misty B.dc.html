@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/cara-a-brown-design-system-6758f7fa-7f1f-4735-bd27-039a24473674/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/cara-a-brown-design-system-6758f7fa-7f1f-4735-bd27-039a24473674/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/cara-a-brown-design-system-6758f7fa-7f1f-4735-bd27-039a24473674/styles.css">
+  <script src="_ds/cara-a-brown-design-system-6758f7fa-7f1f-4735-bd27-039a24473674/_ds_bundle.js"></script>
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes hbarGrow {
+      from { width: 0; }
+      to { width: 60px; }
+    }
+    a { color: rgba(255,255,255,0.7); }
+    a:hover { color: #ffffff; }
+  </style>
+</helmet>
+
+<div style="position: fixed; inset: 0; width: 100vw; height: 100vh; overflow: hidden;">
+  <!-- Background image -->
+  <img src="uploads/DSC_0031.JPG" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%;" alt="">
+  <!-- Overlay -->
+  <div style="position: absolute; inset: 0; background: {{ overlayBg }};"></div>
+
+  <!-- Content -->
+  <div style="position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 40px 24px; box-sizing: border-box; text-align: center;">
+
+    <!-- Top spacer -->
+    <div style="flex: 1;"></div>
+
+    <!-- Title block -->
+    <div style="animation: fadeUp 1s ease-out both;">
+      <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 20px 0;">It's Your Girl</p>
+      <h1 style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: clamp(42px, 8vw, 88px); font-weight: 300; letter-spacing: -0.02em; color: #ffffff; margin: 0; line-height: 1.05;">Ms. Misty B</h1>
+      <!-- hbar device -->
+      <div style="width: 60px; height: 2px; background: #2a4080; margin: 24px auto 0; animation: hbarGrow 0.8s ease-out 0.5s both;"></div>
+    </div>
+
+    <!-- Coming Soon + Tagline -->
+    <div style="animation: fadeUp 1s ease-out 0.3s both; margin-top: 32px;">
+      <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin: 0 0 12px 0;">Coming Soon</p>
+      <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.7); margin: 0; max-width: 380px; line-height: 1.6;">Something new is on its way. Be the first to know.</p>
+    </div>
+
+    <!-- Email capture -->
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+    <div style="animation: fadeUp 1s ease-out 0.6s both; margin-top: 40px; width: 100%; max-width: 420px;">
+      <sc-if value="{{ !submitted }}" hint-placeholder-val="{{ true }}">
+        <form style="display: flex; gap: 0; width: 100%;" onSubmit="{{ handleSubmit }}">
+          <input type="email" placeholder="Enter your email" required="" style="flex: 1; height: 48px; padding: 0 16px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; color: #ffffff; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-right: none; outline: none; box-sizing: border-box;" ref="{{ emailRef }}">
+          <button type="submit" style="height: 48px; padding: 0 28px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #ffffff; background: #2a4080; border: 1px solid #2a4080; cursor: pointer; white-space: nowrap;" style-hover="background: #1a2744; border-color: #1a2744;">Notify Me</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+        <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.8); margin: 0;">Thank you. You will be the first to know.</p>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- Admin panel (Ctrl+Shift+E) -->
+    <sc-if value="{{ showAdmin }}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center;" onClick="{{ closeAdmin }}">
+        <div style="background: #ffffff; padding: 32px; max-width: 500px; width: 90%; max-height: 70vh; overflow-y: auto; box-sizing: border-box;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a4080; margin: 0;">Collected Emails ({{ emailCount }})</p>
+            <button onClick="{{ downloadCSV }}" style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff; background: #2a4080; border: none; padding: 8px 20px; cursor: pointer;" style-hover="background: #1a2744;">Download CSV</button>
+          </div>
+          <sc-for list="{{ emailList }}" as="entry" hint-placeholder-count="0">
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #dddad3; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #1e1e1c;">
+              <span>{{ entry.email }}</span>
+              <span style="color: #888680; font-size: 11px;">{{ entry.date }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Spacer -->
+    <div style="flex: 1;"></div>
+
+    <!-- Social icons -->
+    <div style="animation: fadeUp 1s ease-out 0.9s both; display: flex; gap: 28px; align-items: center; margin-bottom: 12px;">
+      <a href="https://www.instagram.com/talkinboutshiit" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none; transition: opacity 0.2s;" style-hover="opacity: 1;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+      <a href="https://www.youtube.com/@InTheKitchenWithMsMistyB" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none; transition: opacity 0.2s;" style-hover="opacity: 1;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"></polygon></svg>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.3); margin: 0 0 24px 0; letter-spacing: 0.04em;">© 2026 Ms. Misty B. All rights reserved.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;100%&quot; },
+  &quot;overlayOpacity&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.95, &quot;min&quot;: 0.3, &quot;max&quot;: 0.99, &quot;step&quot;: 0.05, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Background&quot; },
+  &quot;showEmailForm&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot; }
+}">
+class Component extends DCLogic {
+  state = { submitted: false, showAdmin: false };
+  emailRef = React.createRef();
+
+  componentDidMount() {
+    this._keyHandler = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'E') {
+        this.setState(s => ({ showAdmin: !s.showAdmin }));
+      }
+    };
+    window.addEventListener('keydown', this._keyHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._keyHandler);
+  }
+
+  renderVals() {
+    const opacity = this.props.overlayOpacity ?? 0.95;
+    const showForm = this.props.showEmailForm ?? true;
+    const key = 'msmistyb_emails';
+    const emails = JSON.parse(localStorage.getItem(key) || '[]');
+
+    const overlayBg = `linear-gradient(180deg, rgba(26,39,68,${opacity * 0.78}) 0%, rgba(13,13,11,${Math.min(opacity * 1.1, 0.95)}) 100%)`;
+
+    return {
+      overlayBg,
+      showForm,
+      submitted: this.state.submitted,
+      showAdmin: this.state.showAdmin,
+      emailRef: this.emailRef,
+      emailCount: emails.length,
+      emailList: emails,
+      handleSubmit: (e) => {
+        e.preventDefault();
+        const email = this.emailRef.current?.value?.trim();
+        if (!email) return;
+        // Save to Google Sheet
+        fetch('https://script.google.com/macros/s/AKfycbx-3STdpqc_ojJ9ms9i9NFExe-J6S-mTyZbgSiIvPwHryAo9XToZyRYYZMTXNE5w0wfKg/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        // Also save locally as backup
+        const existing = JSON.parse(localStorage.getItem(key) || '[]');
+        existing.push({ email, date: new Date().toISOString() });
+        localStorage.setItem(key, JSON.stringify(existing));
+        this.setState({ submitted: true });
+      },
+      downloadCSV: () => {
+        const data = JSON.parse(localStorage.getItem(key) || '[]');
+        const csv = 'Email,Date Submitted\n' + data.map(r => `${r.email},${r.date}`).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'msmistyb_emails.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      closeAdmin: () => this.setState({ showAdmin: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
